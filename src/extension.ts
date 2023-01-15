@@ -6,7 +6,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// コマンドを登録する
 	// package.jsonのcontributes.commandsに登録したコマンド名を指定する必要がある
 	context.subscriptions.push(
-		vscode.commands.registerCommand('search-command.custom-search', customSearch)
+		vscode.commands.registerCommand('my-search-command.search', search)
 	);
 }
 
@@ -14,7 +14,7 @@ export function deactivate() { }
 
 function loadSnippets() {
 	// 設定を読み込む
-	const config = vscode.workspace.getConfiguration('search-command');
+	const config = vscode.workspace.getConfiguration('my-search-command');
 	let proxy_snippets: { [key: string]: string } | undefined = config.get('snippets');
 	if (!proxy_snippets) {
 		// snippetsが設定されていない場合はエラーを表示する
@@ -25,7 +25,7 @@ function loadSnippets() {
 	return proxy_snippets;
 }
 
-async function customSearch() {
+async function search() {
 	let dict_snippets = loadSnippets();
 	let items: vscode.QuickPickItem[] = Object.keys(dict_snippets).map((key) => {
 		return {

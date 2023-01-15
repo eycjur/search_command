@@ -14,4 +14,4 @@ build:
 
 .PHONY: install-extension
 install-extension:
-	code --install-extension search-command-0.0.1.vsix
+	code --install-extension my-search-command-0.0.1.vsix

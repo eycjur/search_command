@@ -1,6 +1,6 @@
 {
-  "name": "search-command",
-  "displayName": "search-command",
+  "name": "my-search-command",
+  "displayName": "my-search-command",
   "description": "vscode extension to search custom command snippets",
   "version": "0.0.1",
   "repository": {
@@ -14,16 +14,16 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:search-command.custom-search"
+    "onCommand:search-command.my-search"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "search-command.custom-search",
-        "title": "Custom Search",
-        "category": "Search Command",
-        "detail": "Search custom command snippets"
+        "command": "my-search-command.search",
+        "title": "My Search",
+        "category": "My Search Command",
+        "detail": "Search my command snippets"
       }
     ]
   },
