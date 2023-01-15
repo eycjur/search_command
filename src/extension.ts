@@ -25,39 +25,26 @@ function loadSnippets() {
 	return proxy_snippets;
 }
 
-function customSearch() {
-	// 検索ボックスを表示する
-	vscode.window.showInputBox({
-		placeHolder: '検索する文字列を入力してください',
-		prompt: '検索する文字列を入力してください',
-		ignoreFocusOut: true,
-	}).then((value) => {
-		// 検索ボックスで入力された文字列を取得する
-		if (value) {
-			// snippetsを読み込む
-			let dict_snippets = loadSnippets();
-			// snippetsの中から検索する
-			let result = Object.keys(dict_snippets).filter((key) => {
-				return (key + dict_snippets[key]).indexOf(value) !== -1;
-			}).map((key) => {
-				return key + ":\t" + dict_snippets[key];
-			});
-			console.log("result:\n" + result.join("\n"));
-
-			if (result.length === 0) {
-				// 検索結果がない場合はエラーを表示する
-				vscode.window.showErrorMessage('検索結果がありません');
-				return;
-			}
-
-			// 検索結果の中から選択する
-			vscode.window.showQuickPick(result).then((value) => {
-				if (value) {
-					// 選択された文字列をクリップボードにコピーする
-					vscode.env.clipboard.writeText(value.split(":\t")[1]);
-					console.log(value);
-				}
-			});
+async function customSearch() {
+	let dict_snippets = loadSnippets();
+	let items: vscode.QuickPickItem[] = Object.keys(dict_snippets).map((key) => {
+		return {
+			label: key,
+			description: dict_snippets[key],
+			alwaysShow: true,
 		}
+	});
+
+	// 検索ボックスを表示する（インクリメンタルサーチ）
+	let result = await vscode.window.showQuickPick(items, {
+		placeHolder: '検索する文字列を入力してください',
+		ignoreFocusOut: true,
 	})
+	if (result) {
+		// 選択された文字列をクリップボードにコピーする
+		vscode.env.clipboard.writeText(result.label);
+		console.log(result);
+	} else {
+		vscode.window.showErrorMessage('キャンセルされました');
+	}
 }

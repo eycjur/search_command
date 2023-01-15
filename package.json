@@ -22,7 +22,8 @@
       {
         "command": "search-command.custom-search",
         "title": "Custom Search",
-        "category": "Search Command"
+        "category": "Search Command",
+        "detail": "Search custom command snippets"
       }
     ]
   },
