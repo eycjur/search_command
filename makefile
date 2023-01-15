@@ -10,7 +10,7 @@ compile:
 
 .PHONY: build
 build:
-	yarn vscode:prepublish
+	npx vsce package
 
 .PHONY: install-extension
 install-extension:

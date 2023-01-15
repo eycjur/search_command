@@ -15,14 +15,14 @@ export function deactivate() { }
 function loadSnippets() {
 	// 設定を読み込む
 	const config = vscode.workspace.getConfiguration('search-command');
-	const snippets = config.get<{ [key: string]: string }>('snippets');
-	if (!snippets) {
+	let proxy_snippets: { [key: string]: string } | undefined = config.get('snippets');
+	if (!proxy_snippets) {
 		// snippetsが設定されていない場合はエラーを表示する
 		vscode.window.showErrorMessage('snippets is not found.');
-		return {};
+		proxy_snippets = {};
 	}
-	console.log("snippets: " + snippets);
-	return snippets;
+	console.log(proxy_snippets);
+	return proxy_snippets;
 }
 
 function customSearch() {
@@ -38,17 +38,24 @@ function customSearch() {
 			let dict_snippets = loadSnippets();
 			// snippetsの中から検索する
 			let result = Object.keys(dict_snippets).filter((key) => {
-				return key.indexOf(value) !== -1;
+				return (key + dict_snippets[key]).indexOf(value) !== -1;
 			}).map((key) => {
-				return key + ": " + dict_snippets[key];
+				return key + ":\t" + dict_snippets[key];
 			});
-			console.log("result: " + result);
+			console.log("result:\n" + result.join("\n"));
+
+			if (result.length === 0) {
+				// 検索結果がない場合はエラーを表示する
+				vscode.window.showErrorMessage('検索結果がありません');
+				return;
+			}
 
 			// 検索結果の中から選択する
 			vscode.window.showQuickPick(result).then((value) => {
 				if (value) {
 					// 選択された文字列をクリップボードにコピーする
-					vscode.env.clipboard.writeText(value);
+					vscode.env.clipboard.writeText(value.split(":\t")[1]);
+					console.log(value);
 				}
 			});
 		}

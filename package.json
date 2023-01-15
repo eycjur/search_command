@@ -1,11 +1,11 @@
 {
   "name": "search-command",
-  "displayName": "search_command",
-  "description": "search custom command snippets",
+  "displayName": "search-command",
+  "description": "vscode extension to search custom command snippets",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/eycjur/search_command"
+    "url": "git://github.com/eycjur/vecode-extension-search-command.git"
   },
   "engines": {
     "vscode": "^1.74.0"

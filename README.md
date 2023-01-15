@@ -1,4 +1,4 @@
-# Search Command
+# Vscode Extension Search Command
 
 This extension allows you to search which command is written in the setting file.
 
